@@ -1,15 +1,4 @@
 """
-Purpose of 'apps.py' in django applications:
-https://docs.djangoproject.com/en/4.0/ref/applications/#configuring-applications
-https://stackoverflow.com/questions/32795227/what-is-the-purpose-of-apps-py-in-django-1-9
-
-For more information about 'DRF token based authentication' read below document:
-https://www.django-rest-framework.org/api-guide/authentication/#tokenauthentication
-
-These documents used to set the ConfigApp 'name' and project 'INSTALLED_DIRS' value when applications not in BASE_DIR directly:
-# https://stackoverflow.com/questions/46177499/django-cant-import-module-check-that-module-appconfig-name-is-correct
-# https://docs.djangoproject.com/en/3.2/ref/applications/#django.apps.AppConfig.name
-
 If you include rich text editors like 'CKEditor' or 'django_quill' into project, make sure to enter:
 'py manage.py collectstatic'.
 
@@ -23,7 +12,6 @@ To load static and media files from AWS (or any other CDN provider) we better us
 'boto3' and 'django-storages'.
 """
 from django.urls import reverse_lazy
-
 import os
 from dotenv import load_dotenv, dotenv_values
 # from pathlib import Path
@@ -35,8 +23,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 # BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 SECRET_KEY = dotenv_values()['SECRET_KEY']
-print(SECRET_KEY)
-
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -45,27 +31,24 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'django_extensions',
-
-    # 'rest_framework',
-    # 'rest_framework.authtoken',
-    # "debug_toolbar",
-    # 'django_filters',
-    # 'taggit',
-    # 'django_quill',
-    # 'django_countries',
-    # 'social_django',
-    # 'corsheaders',
+    'rest_framework',
+    'rest_framework.authtoken',
+    "debug_toolbar",
+    'django_filters',
+    'taggit',
+    'django_countries',
+    'social_django',
+    'corsheaders',
     # 'django_hosts',
-    # 'ckeditor',
-    # 'ckeditor_uploader',
-    # 'axes',
+    'ckeditor',
+    'ckeditor_uploader',
+    'axes',
     # https://github.com/jazzband/django-axes/issues/915	# Issue with django=4.1 and django-axes
-    # 'silk,
+    'silk',
     # 'admin_honeypot',
-    # 'sorl.thumbnail',
-    # 'constance',
+    'sorl.thumbnail',
+    'constance',
     # "django_minify_html",
 
     # We need these modules to activate 'django two-factor-authentication':
@@ -79,7 +62,7 @@ INSTALLED_APPS = [
     # 'two_factor.plugins.yubikey',  # <- for yubikey capability.
 
     # "django_browser_reload",    # Enable 'django-browser-reload' module
-    # 'watchman',     # Enable 'django-watchman'
+    'watchman',     # Enable 'django-watchman'
     # NOTE: If 'watchman' causes this error: "ImportError: cannot import name '__version__'...", we
     # need to just got to .../env/watchamn/__init__.py directory and add this line:
     # __version__= '<installed_watchman_version>' for eg: __version__ = '1.3.0' 
@@ -94,24 +77,26 @@ INSTALLED_APPS = [
 
     # To be able to use database for 'constance'
     # 'constance.backends.database',
+    'main',
+    'users',
 ]
 
 
 MIDDLEWARE = [
     # 'django_hosts.middleware.HostsRequestMiddleware',       # To activate 'django-hosts'
 
-    # "debug_toolbar.middleware.DebugToolbarMiddleware",    # To enable 'django-debug-tool'
+    "debug_toolbar.middleware.DebugToolbarMiddleware",    # To enable 'django-debug-tool'
     
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     # 'django.middleware.cache.UpdateCacheMiddleware',        # for per site cache
-    # 'corsheaders.middleware.CorsMiddleware',                # To activate 'cors-headers'
+    'corsheaders.middleware.CorsMiddleware',                # To activate 'cors-headers'
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.cache.FetchFromCacheMiddleware',     # for per site cache
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     
-    # 'silk.middleware.SilkyMiddleware',				   # To enable django-silk
+    'silk.middleware.SilkyMiddleware',				   # To enable django-silk
 
     # 'django_otp.middleware.OTPMiddleware',                  # To activate 'django-two-factor-authentication'
     
@@ -122,7 +107,7 @@ MIDDLEWARE = [
     # 'django_browser_reload.middleware.BrowserReloadMiddleware',     # 'django-browser-reload' module
 
     # 'django_hosts.middleware.HostsResponseMiddleware',      # To activate 'django-hosts'
-    # 'axes.middleware.AxesMiddleware',                       # To acitave 'django-axes'
+    'axes.middleware.AxesMiddleware',                       # To acitave 'django-axes'
     # 'django_session_timeout.middleware.SessionTimeoutMiddleware',    # To activate 'django_session_timeout'
 ]
 
@@ -167,8 +152,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                # 'social_django.context_processors.backends',
-                # 'social_django.context_processors.login_redirect',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
                 # 'cart.context_processor.cart_context'
             ],
         },
@@ -227,15 +212,15 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# AUTH_USER_MODEL = 'user.User'
+AUTH_USER_MODEL = 'users.User'
 # AUTH_USER_MODEL = 'accounts.User'
 
 
-LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
-# TIME_ZONE = 'Asia/Tehran'
+TIME_ZONE = 'Asia/Tehran'
 
 USE_I18N = True
 
@@ -284,7 +269,7 @@ LOGOUT_REDIRECT_URL = 'index'
 # not to use 'reverse_lazy' (but it's recommended for good practice).
 
 
-# TAGGIT_CASE_INSENSITIVE = True
+TAGGIT_CASE_INSENSITIVE = True
 
 
 # Django social authentication settings:
@@ -311,44 +296,40 @@ AUTHENTICATION_BACKENDS = (
 # SOCIAL_AUTH_URL_NAMESPACE = 'social'    # It's optional, to make a default namespace for our social auth backend
 
 
-"""
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
-
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    # ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ]
 }
-"""
 
 
 # Cors headers settings (NOTE: Without 'cors', process on diffrent domains and ports could not speak to each other! 'same-origin' only enabled when two process work on same domain and port)
 # In ajax request using 'fetch' or any front techs like 'reqct', 'angular' or even an script with 'requests' library, we must enable 'CORS' for the server.
 # NOTE: Many techs habe problems with 'CORS_ALLOW_ALL_ORIGINS = True' like 'fetch' in JS. So use 'CORS_ALLOWED_ORIGIN' to escape that problem!
 # CORS_ALLOW_ALL_ORIGINS = True
-# CORS_ALLOWED_ORIGINS = [
-#     "http://127.0.0.1:8000",
-#     'http://127.0.0.1:5500',
-#     'https://127.0.0.1:5500',
-# ]
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:8000",
+    'http://127.0.0.1:5500',
+    'https://127.0.0.1:5500',
+]
 # * If we don't set 'CORS_ALLOW_CREDENTIALS = True', We will get this error on client side:
 # Access to fetch at 'http://127.0.0.1:8000/add_product_cart' from origin 'http://127.0.0.1:5500' has been blocked by CORS policy: The value of the 'Access-Control-Allow-Credentials' header in the response is '' which must be 'true' when the request's credentials mode is 'include'.
 # NOTE: Remember that without this field, any cookie sent by client, does not checked by server!
 # CORS_ALLOW_CREDENTIALS = True
 
 # * To be able to let 'X-CSRFToken' header checked by server (this header sent by any client) we must 
-# CSRF_TRUSTED_ORIGINS = [
-#     "http://127.0.0.1:8000",
-#     "http://127.0.0.1:5500",
-#     'http://*:*'
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8000",
+    "http://127.0.0.1:5500",
+    'http://*:*'
+]
 
 
 
@@ -356,45 +337,44 @@ REST_FRAMEWORK = {
 # each one of three below is acceptable
 # CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 # CKEDITOR_BASEPATH = f"{STATIC_URL}ckeditor/ckeditor/"
-# CKEDITOR_BASEPATH = (os.path.join(STATIC_URL, 'ckeditor', 'ckeditor', '')).replace("\\", "/")		# Works on windows machine
-# CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_BASEPATH = (os.path.join(STATIC_URL, 'ckeditor', 'ckeditor', '')).replace("\\", "/")		# Works on windows machine
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 # CKEditor optional settings
-# CKEDITOR_CONFIGS = {
-    # 'default': {
-        # 'toolbar': 'full',
-        # 'toolbar': 'basic',
-        # 'height': 300,
-        # 'width': 300,
-    # },
-# }
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'toolbar': 'basic',
+        'height': 300,
+        'width': 300,
+    },
+}
 
 
 # django-axes optional config:
 # https://django-axes.readthedocs.io/en/latest/4_configuration.html
 
-# AUTHENTICATION_BACKENDS = [
+AUTHENTICATION_BACKENDS = [
     # AxesBackend should be the first backend in the AUTHENTICATION_BACKENDS list.
-    # 'axes.backends.AxesBackend',
-
+    'axes.backends.AxesBackend',
     # Django ModelBackend is the default authentication backend.
-    # 'django.contrib.auth.backends.ModelBackend',
-# ]
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 # AXES_FAILURE_LIMIT = 5
 # AXES_ONLY_USER_FAILURES = True
 
 
 # django-constance settings
-# CONSTANCE_CONFIG = {
-#     'discount': (5, 'Global discount percent'),
-# }
+CONSTANCE_CONFIG = {
+    'discount': (5, 'Global discount percent'),
+}
 
-# CONSTANCE_IGNORE_ADMIN_VERSION_CHECK = True
+CONSTANCE_IGNORE_ADMIN_VERSION_CHECK = True
 
 # By default django uses 'redis' to store 'constance' variables. to use database we should follow this document:
 # https://django-constance.readthedocs.io/en/latest/backends.html#database
-# CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
+CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
 
 
 # Django two factor authentication
@@ -430,4 +410,3 @@ REST_FRAMEWORK = {
 # # EMAIL_USE_SSL = True
 # EMAIL_HOST_USER = 'dornika@dornika.shop'
 # EMAIL_HOST_PASSWORD = 'dornikashop'
-
