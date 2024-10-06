@@ -3,4 +3,5 @@ from django.http import JsonResponse
 
 
 def index(request):
-    return JsonResponse(data={'status': 'success'}, safe=True)
+    # return JsonResponse(data={'status': 'success'}, safe=True)
+    return render(request, 'index.html')
