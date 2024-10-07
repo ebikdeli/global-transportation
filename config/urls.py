@@ -11,6 +11,7 @@ urlpatterns = [
     path('silk/', include('silk.urls', namespace='silk')),    # Enable 'django-silk'
     path('watchman/', include('watchman.urls')),    # Enable 'django-watchman'
 
+    path('shipping/', include('shipping.urls')),
     path('', include('main.urls')),
 ]
 
