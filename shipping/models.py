@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
+from django.conf import settings
 from django_countries.fields import CountryField
 from _resource.func import get_random_string
 
@@ -9,8 +10,9 @@ class Company(models.Model):
     """Model that represents a shipping company"""
     name = models.CharField(verbose_name=_('name'), max_length=50)
     country = CountryField(verbose_name=_('country'), blank=True)
-    slug = models.SlugField(blank=True)
     descibe = models.TextField(verbose_name=_('describe'), blank=True)
+    establish = models.CharField(verbose_name=_('establish'), max_length=4, blank=True)
+    slug = models.SlugField(blank=True)
     
     class Meta:
         ordering = ['name']
@@ -28,7 +30,14 @@ class Company(models.Model):
 
 class Shipping(models.Model):
     """Model to represend the shipping process"""
+    customer = models.ForeignKey(verbose_name=_('customer'),
+                                 to=settings.AUTH_USER_MODEL,
+                                 on_delete=models.SET_NULL,
+                                 related_name='shipping_customer',
+                                 blank=True,
+                                 null=True)
     company = models.ForeignKey(verbose_name=_('company'),
+                                to='shipping.Company',
                                 on_delete=models.SET_NULL,
                                 related_name='shipping_company',
                                 blank=True,
@@ -36,7 +45,8 @@ class Shipping(models.Model):
     code = models.CharField(verbose_name=_('code'), max_length=8, blank=True)
     product = models.CharField(verbose_name=_('product'), max_length=100)
     weight = models.FloatField(verbose_name=_('weight'), default=0)
-    cost = models.DecimalField(verbose_name=_('cost'), max_digits=12, decimal_places=0)
+    quantity = models.IntegerField(verbose_name=_('quantity'), default=0)
+    cost = models.DecimalField(verbose_name=_('cost'), max_digits=12, decimal_places=0, default=0)
     source = models.CharField(verbose_name=_('source'), max_length=50)
     destination = models.CharField(verbose_name=_('destination'), max_length=50)
     is_paid = models.BooleanField(verbose_name=_('is paid'), default=False)
