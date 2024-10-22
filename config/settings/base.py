@@ -80,6 +80,7 @@ INSTALLED_APPS = [
     'main',
     'users',
     'shipping',
+    'payment',
 ]
 
 

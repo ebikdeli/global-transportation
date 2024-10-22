@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
 from django.conf import settings
 from django_countries.fields import CountryField
+import uuid
 from _resource.func import get_random_string
 
 
@@ -30,6 +31,7 @@ class Company(models.Model):
 
 class Shipping(models.Model):
     """Model to represend the shipping process"""
+    uuid = models.UUIDField(verbose_name=_('uuid'), default=uuid.uuid4, editable=False)
     customer = models.ForeignKey(verbose_name=_('customer'),
                                  to=settings.AUTH_USER_MODEL,
                                  on_delete=models.SET_NULL,
@@ -42,7 +44,7 @@ class Shipping(models.Model):
                                 related_name='shipping_company',
                                 blank=True,
                                 null=True)
-    code = models.CharField(verbose_name=_('code'), max_length=8, blank=True)
+    code = models.CharField(verbose_name=_('code'), max_length=8, blank=True, editable=False)
     product = models.CharField(verbose_name=_('product'), max_length=100)
     weight = models.FloatField(verbose_name=_('weight'), default=0)
     quantity = models.IntegerField(verbose_name=_('quantity'), default=0)
@@ -51,6 +53,7 @@ class Shipping(models.Model):
     destination = models.CharField(verbose_name=_('destination'), max_length=50)
     is_paid = models.BooleanField(verbose_name=_('is paid'), default=False)
     is_active = models.BooleanField(verbose_name=_('is active'), default=False)
+    is_verified = models.BooleanField(verbose_name=_('is verified'), default=False)
     is_received = models.BooleanField(verbose_name=_('is received'), default=False)
     describe = models.TextField(verbose_name=_('describe'), blank=True)
     slug = models.SlugField(blank=True)

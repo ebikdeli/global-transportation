@@ -12,6 +12,7 @@ urlpatterns = [
     path('watchman/', include('watchman.urls')),    # Enable 'django-watchman'
 
     path('shipping/', include('shipping.urls')),
+    path('payment/', include('payment.urls')),
     path('', include('main.urls')),
 ]
 
