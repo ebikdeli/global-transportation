@@ -2,15 +2,70 @@
 {% load static %}
 
 
+{% block head %}
+    <link rel="stylesheet" href="{% static "css/shipping.css" %}">
+{% endblock head %}
+
+
 {% block title %}Register your order{% endblock title %}
 
 
 {% block content %}
-    <form class="ms-3" action="{% url "shipping:order" %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <table>
-            {{form.as_table}}
-        </table>
-        <input type="submit" value="OK">
-    </form>
+
+    <section class='shipping-form'>
+        <form class="ms-3" action="" method="post" enctype="multipart/form-data">
+
+            {% csrf_token %}
+            
+            <!-- Company (foreign key) -->
+            <label for="company">Company:</label>
+            <select id="company" name="company">
+                <option value="">Select a company</option>
+                <option value="1">Company 1</option>
+                <option value="2">Company 2</option>
+                <!-- Add more company options here -->
+            </select>
+            <div id="companyError" class="error"></div>
+
+            <!-- Product (text) -->
+            <label for="product">Product:</label>
+            <input type="text" id="product" name="product" required>
+            <div id="productError" class="error"></div>
+
+            <!-- Weight (number) -->
+            <label for="weight">Weight (kg):</label>
+            <input type="number" id="weight" name="weight" required>
+            <div id="weightError" class="error"></div>
+
+            <!-- Quantity (number) -->
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" required>
+            <div id="quantityError" class="error"></div>
+
+            <!-- Source (text) -->
+            <label for="source">Source:</label>
+            <input type="text" id="source" name="source" required>
+            <div id="sourceError" class="error"></div>
+
+            <!-- Destination (text) -->
+            <label for="destination">Destination:</label>
+            <input type="text" id="destination" name="destination" required>
+            <div id="destinationError" class="error"></div>
+
+            <!-- Describe (textarea) -->
+            <label for="describe">Describe:</label>
+            <textarea id="describe" name="describe" rows="4" cols="50"></textarea>
+            <div id="describeError" class="error"></div>
+
+            <button type="submit">Submit</button>
+
+        </form>
+
+    </section>
+
 {% endblock content %}
+
+
+{% block scripts %}
+    <script type="module" src="{% static "js/shipping.js" %}"></script>
+{% endblock scripts %}
