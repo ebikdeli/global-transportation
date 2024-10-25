@@ -1,0 +1,65 @@
+{% extends "_base.html" %}
+{% load static %}
+
+
+{% block head %}
+<link rel="stylesheet" href="{% static "css/shipping_view.css" %}">
+{% endblock head %}
+
+
+{% block title %}Shipping view{% endblock title %}
+
+
+{% block content %}
+    <section class="shipping-view">
+        <h2>Product Information</h2>
+
+        <div class="info-card">
+            {% if shipping.company %}
+            <div class="field">
+                <label>Company:</label>
+                <div class="value" id="companyValue">{{ shipping.company.name }}</div>
+            </div>
+            {% endif %}
+    
+            <div class="field">
+                <label>Product:</label>
+                <div class="value" id="productValue">{{ shipping.product }}</div>
+            </div>
+    
+            <div class="field">
+                <label>Cost ($):</label>
+                <div class="value" id="cost">{{ shipping.cost }}</div>
+            </div>
+    
+            <div class="field">
+                <label>Weight (kg):</label>
+                <div class="value" id="weightValue">{{ shipping.weight }}</div>
+            </div>
+    
+            <div class="field">
+                <label>Quantity (Unit):</label>
+                <div class="value" id="quantityValue">{{ shipping.quantity }}</div>
+            </div>
+    
+            <div class="field">
+                <label>Source:</label>
+                <div class="value" id="sourceValue">{{ shipping.source }}</div>
+            </div>
+    
+            <div class="field">
+                <label>Destination:</label>
+                <div class="value" id="destinationValue">{{ shipping.destination }}</div>
+            </div>
+    
+            <div class="field">
+                <label>Description:</label>
+                <div class="value" id="descriptionValue">{{ shipping.describe }}</div>
+            </div>
+        </div>
+    
+        <div class="button-container">
+            <button class="button" onclick="window.history.back()">Back</button>
+        </div>
+    </section>
+{% endblock content %}
