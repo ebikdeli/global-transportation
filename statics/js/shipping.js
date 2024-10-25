@@ -75,8 +75,9 @@ document.querySelector('.shipping-form').addEventListener('submit', function (e)
             if (data) {
                 // Show success message
                 // document.getElementById('successMessage').textContent = 'Form submitted successfully!';
-                console.log(data);
-                window.location.replace('https://www.djangoproject.com/')
+                // console.log(data);
+                let shipping_code = data['data']['shipping_code'];
+                window.location.replace(`${location.protocol}//${location.host}/shipping/view/${shipping_code}/`)
             } else {
                 // document.getElementById('successMessage').textContent = 'Error submitting form.';
                 alert('Error submitting form.');

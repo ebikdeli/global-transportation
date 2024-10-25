@@ -21,8 +21,9 @@
             <label for="company">Company:</label>
             <select id="company" name="company">
                 <option value="">Select a company</option>
-                <option value="1">Company 1</option>
-                <option value="2">Company 2</option>
+                {% for company in companies %}
+                    <option value="{{company.id}}">{{company.name}}</option>
+                {% endfor %}
                 <!-- Add more company options here -->
             </select>
             <div id="companyError" class="error"></div>
