@@ -1,0 +1,34 @@
+{% extends "_base.html" %}
+{% load static %}
+
+
+{% block head %}
+    <link rel="stylesheet" href="{% static "css/shipping.css" %}">
+{% endblock head %}
+
+
+{% block content %}
+<section class='shipping-form'>
+
+    <h2 class="mt-1 mb-3">Check shipping order</h2>
+
+    <form id="shipping-check-form" class="mx-auto" method="post" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <!-- Check order -->
+        <label for="shipping-code">8-digit Shipping order code:</label>
+        <input type="text" id="shipping-code" name="shipping-code" required>
+        <div id="shippingError" class="error"></div>
+
+        <button type="submit">Submit</button>
+
+    </form>
+
+</section>
+{% endblock content %}
+
+
+{% block scripts %}
+<script src="{% static "js/shipping.js" %}"></script>
+{% endblock scripts %}

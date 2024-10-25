@@ -14,6 +14,25 @@ def shipping(request:HttpRequest) -> HttpResponse:
     return render(request, 'shipping/shipping.html', {'form': shipping_modelform, 'companies': companies})
 
 
+def shipping_check(request: HttpRequest) -> HttpResponse:
+    """There is form in this page that user check if there is a order using shipping.code"""
+    if request.method == 'GET':
+        return render(request, 'shipping/shipping_check.html')
+    if request.method == 'POST':
+        form_data:dict = json.loads(request.POST.get('data', None))
+        shipping_code = form_data['shipping_code']
+        shipping_qs = Shipping.objects.filter(code=shipping_code)
+        if shipping_qs.exists():
+            shipping = shipping_qs.first()
+            print(shipping)
+            return JsonResponse(data={'status': 'ok', 'msg': f'Shipping found with code({shipping.code})',
+                                        'data':
+                                            {'shipping_id': shipping.id, 'shipping_code': shipping.code, 'uuid': str(shipping.uuid)}
+                                        })
+        else:
+            return JsonResponse(data={'status': 'nok', 'msg': f'No shipping found', 'data': None})
+
+
 def shipping_order(request: HttpRequest) -> HttpResponse:
     """Register a shipping order for the customer after the customer regsiters the shipping from shipping form"""
     if request.method == 'POST':
